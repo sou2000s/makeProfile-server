@@ -28,27 +28,32 @@ app.get('/' , (req , res)=>{
     }
 }
 
-app.put('/users' , async(req , res)=>{
+app.post('/users' , async(req , res)=>{
      try {
         const user = req.body
-    const result = await usersCollection.insertOne(user)
-    res.send(result)
+       const result = await usersCollection.insertOne(user)
+       res.send(result)
    
      } catch (error) {
         console.log(error.message);
      }
 })
 
-app.get('/users' , async(req , res)=>{
+
+app.get('/searchedUsers' , async(req , res)=>{
     try {
-        const name = (req.query.name).toLocaleLowerCase();
+        const name = (req.query.search);
+       
         const query = {name: name}
         const result = await usersCollection.find(query).toArray()
-        res.send(result) 
+        res.send(result)
+        console.log(result);
+        
     } catch (error) {
         console.log(error.message);
     }
 })
+
 
 
 app.get('/users/:id' , async(req , res)=>{
