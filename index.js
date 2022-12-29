@@ -7,7 +7,7 @@ app.use(cors())
 app.use(express.json())
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://user50:i6e0hGmMgvA7Q3QI@cluster0.x7kxg5y.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -50,6 +50,17 @@ app.get('/users' , async(req , res)=>{
     }
 })
 
+
+app.get('/users/:id' , async(req , res)=>{
+    try {
+        const id = req.params.id;
+        const query  = {_id: ObjectId(id)}
+        const result = await usersCollection.findOne(query)
+        res.send(result)
+    } catch (error) {
+        console.log(error.message);
+    }
+})
 
 dbConnect()
 
